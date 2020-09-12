@@ -1,4 +1,5 @@
 import React from 'react';
+import { I18nManager } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import AppNavigator from './navigation/AppNavigator';
 import * as SplashScreen from 'expo-splash-screen';
@@ -14,6 +15,7 @@ const App = () => {
 
   if (fontsLoaded) {
     SplashScreen.hideAsync();
+    I18nManager.forceRTL(true);
   } else {
     return null;
   }

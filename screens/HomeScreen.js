@@ -1,11 +1,12 @@
 import { Card, Container, Content, StyleProvider, Text } from 'native-base';
 import React from 'react';
-import { StyleSheet, StatusBar } from 'react-native';
+import { StyleSheet, StatusBar, I18nManager } from 'react-native';
 import Colors from '../constants/Colors';
 import myAppTheme from '../native-base-theme/variables/myAppTheme';
 import getTheme from '../native-base-theme/components';
 
 const HomeScreen = (props) => {
+  console.log(I18nManager.isRTL ? 'This is RTL!' : 'Not RTL');
   return (
     // <SafeAreaView style={styles.container}>
     //   <StatusBar
@@ -38,8 +39,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   card: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    // justifyContent: 'center',
+    // alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: 32,
   },

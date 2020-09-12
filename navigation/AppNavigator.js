@@ -8,9 +8,9 @@ const defaultNavOptions = {
   headerStyle: {
     backgroundColor: Colors.primary,
   },
-  // headerTitleStyle: {
-  //   fontFamily: 'open-sans-bold'
-  // },
+  headerTitleStyle: {
+    fontFamily: 'shabnam',
+  },
   // headerBackTitleStyle: {
   //   fontFamily: 'open-sans'
   // },
@@ -22,7 +22,11 @@ const AppStackNavigator = createStackNavigator();
 const AppNavigator = (props) => {
   return (
     <AppStackNavigator.Navigator screenOptions={defaultNavOptions}>
-      <AppStackNavigator.Screen name="Home" component={HomeScreen} />
+      <AppStackNavigator.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ title: 'خانه' }}
+      />
     </AppStackNavigator.Navigator>
   );
 };
