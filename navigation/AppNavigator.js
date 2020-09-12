@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import DeviceListScreen from '../screens/DeviceListScreen';
+import DeviceDetailScreen from '../screens/DeviceDetailScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import Colors from '../constants/Colors';
 
@@ -11,9 +12,6 @@ const defaultNavOptions = {
   headerTitleStyle: {
     fontFamily: 'shabnam',
   },
-  // headerBackTitleStyle: {
-  //   fontFamily: 'open-sans'
-  // },
   headerTintColor: 'white',
 };
 
@@ -26,6 +24,11 @@ const AppNavigator = (props) => {
         name="DeviceList"
         component={DeviceListScreen}
         options={{ title: 'دستگاه ها' }}
+      />
+      <AppStackNavigator.Screen
+        name="DeviceDetail"
+        component={DeviceDetailScreen}
+        options={{ title: 'امکانات' }}
       />
     </AppStackNavigator.Navigator>
   );

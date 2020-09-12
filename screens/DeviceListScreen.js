@@ -1,12 +1,4 @@
-import {
-  Card,
-  Container,
-  Content,
-  List,
-  ListItem,
-  StyleProvider,
-  Text,
-} from 'native-base';
+import { Container, Content, StyleProvider } from 'native-base';
 import React from 'react';
 import { StyleSheet, StatusBar, FlatList } from 'react-native';
 import Colors from '../constants/Colors';
@@ -15,7 +7,7 @@ import getTheme from '../native-base-theme/components';
 import { devices } from '../data/dummy';
 import DeviceItem from '../components/DeviceItem';
 
-const DeviceListScreen = (props) => {
+const DeviceListScreen = ({ navigation }) => {
   const renderItem = (itemData) => {
     return (
       <DeviceItem
@@ -27,7 +19,11 @@ const DeviceListScreen = (props) => {
         lat={itemData.item.lat}
         lng={itemData.item.lng}
         onItemPress={() => {}}
-        onMorePress={() => {}}
+        onMorePress={() => {
+          navigation.navigate('DeviceDetail', {
+            deviceId: itemData.item.id,
+          });
+        }}
       />
     );
   };
@@ -57,14 +53,6 @@ const DeviceListScreen = (props) => {
 const styles = StyleSheet.create({
   content: {
     flex: 1,
-    justifyContent: 'center',
-  },
-  card: {
-    paddingHorizontal: 16,
-    paddingVertical: 32,
-  },
-  list: {
-    // padding: 20,
   },
 });
 

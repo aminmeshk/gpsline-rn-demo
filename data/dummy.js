@@ -1,4 +1,5 @@
 import Device from '../models/device';
+import DeviceAction from '../models/deviceAction';
 export const devices = [
   new Device(
     '1',
@@ -32,5 +33,73 @@ export const devices = [
     '09129876543',
     31.299517,
     48.650955,
+  ),
+];
+
+export const deviceActions = [
+  new DeviceAction(
+    '1',
+    'خاموش یا روشن کردن خودرو',
+    'با انتخاب این گزینه میتوان خودرو را از راه دور خاموش یا روشن نمود',
+    'Ionicons',
+    'power',
+    '#786fa6',
+  ),
+  new DeviceAction(
+    '2',
+    'تغییر کلمه عبور',
+    'رمز عبور دستگاه خود را تغییر دهید',
+    'MaterialCommunityIcons',
+    'lock-reset',
+    '#00b894',
+  ),
+  new DeviceAction(
+    '3',
+    'دریافت اطلاعات کلی دستگاه',
+    'مشاهده وضعیت عمومی خودرو، شناسه دستگاه، شارژ سیمکارت و ...',
+    'Ionicons',
+    'md-information-circle-outline',
+    '#fdcb6e',
+  ),
+  new DeviceAction(
+    '4',
+    'تعریف APN اپراتور سیمکارت',
+    'معرفی APN اپراتور سیمکارت جهت اتصال با GPRS',
+    '',
+    '',
+    '#b2bec3',
+    'APN',
+  ),
+  new DeviceAction(
+    '5',
+    'فعالسازی/غیرفعالسازی آلارم کنترل سرعت',
+    'فعال یا غیر فعال کردن اخطار کنترل سرعت مجاز',
+    'SimpleLineIcons',
+    'speedometer',
+    '#ff7675',
+  ),
+  new DeviceAction(
+    '6',
+    'مشاهده فعالیت سنسور های آنالوگ و دیجیتال',
+    'مشاهده وضعیت فعالیت سنسور ها اعم از آنالوگ یا دیجیتال',
+    'Foundation',
+    'mobile-signal',
+    '#74b9ff',
+  ),
+  new DeviceAction(
+    '7',
+    'فعالسازی/غیرفعالسازی سرعت خطرناک',
+    'فعال یا غیرفعالسازی اخطار سرعت خطرناک و تناوب زمان هشداردهی',
+    'Ionicons',
+    'warning-outline',
+    '#fab1a0',
+  ),
+  new DeviceAction(
+    '8',
+    'فعالسازی/غیرفعالسازی دیتا مانیتورینگ',
+    'حالت بررسی اطلاعات را فعال یا غیرفعال نمایید',
+    'MaterialCommunityIcons',
+    'monitor-dashboard',
+    '#00cec9',
   ),
 ];
