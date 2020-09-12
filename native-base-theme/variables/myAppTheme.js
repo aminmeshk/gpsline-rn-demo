@@ -56,7 +56,7 @@ export default {
   badgePadding: platform === PLATFORM.IOS ? 3 : 0,
 
   // Button
-  buttonFontFamily: platform === PLATFORM.IOS ? 'System' : 'Roboto_medium',
+  buttonFontFamily: platform === PLATFORM.IOS ? 'System' : 'shabnam',
   buttonDisabledBg: '#b5b5b5',
   buttonPadding: 6,
   buttonDefaultActiveOpacity: 0.5,
@@ -64,7 +64,7 @@ export default {
   buttonDefaultBorderRadius: 2,
   buttonDefaultBorderWidth: 1,
   get buttonPrimaryBg() {
-    return this.brandPrimary;
+    return this.buttonPrimary;
   },
   get buttonPrimaryColor() {
     return this.inverseTextColor;
@@ -137,6 +137,7 @@ export default {
   // Color
   brandPrimary: Colors.primary,
   brandPrimaryDark: Colors.primaryDark,
+  buttonPrimary: Colors.buttonPrimary,
   brandInfo: '#62B1F6',
   brandSuccess: '#5cb85c',
   brandDanger: '#d9534f',
@@ -298,7 +299,7 @@ export default {
   },
 
   // Title
-  titleFontfamily: platform === PLATFORM.IOS ? 'System' : 'Roboto_medium',
+  titleFontfamily: platform === PLATFORM.IOS ? 'System' : 'shabnam-bold',
   titleFontSize: platform === PLATFORM.IOS ? 17 : 19,
   subTitleFontSize: platform === PLATFORM.IOS ? 11 : 14,
   subtitleColor: platform === PLATFORM.IOS ? '#8e8e93' : '#FFF',

@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import HomeScreen from '../screens/HomeScreen';
+import DeviceListScreen from '../screens/DeviceListScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import Colors from '../constants/Colors';
 
@@ -23,9 +23,9 @@ const AppNavigator = (props) => {
   return (
     <AppStackNavigator.Navigator screenOptions={defaultNavOptions}>
       <AppStackNavigator.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{ title: 'خانه' }}
+        name="DeviceList"
+        component={DeviceListScreen}
+        options={{ title: 'دستگاه ها' }}
       />
     </AppStackNavigator.Navigator>
   );
