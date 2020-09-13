@@ -24,6 +24,7 @@ const DeviceItem = ({
   lng,
   onItemPress,
   onMorePress,
+  style,
 }) => {
   // const mapImageUri = `https://api.neshan.org/v2/static?key=${env.neshanApiKey}&type=dreamy-gold&zoom=17&center=${lat},${lng}&width=400&height=800&marker=red`;
   const mapImageUri = `https://map.ir/static?width=700&height=1200&zoom_level=16&markers=color:skyblue|label:${name}|${lng},${lat}`;
@@ -33,7 +34,7 @@ const DeviceItem = ({
   };
 
   return (
-    <Card style={styles.card}>
+    <Card style={{ ...styles.card, ...style }}>
       <Image
         style={styles.image}
         source={{ uri: mapImageUri, headers: mapImageHeaders }}
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     marginLeft: 10,
     // maxWidth: '100%',
-    maxWidth: 350,
+    // maxWidth: 350,
   },
   image: {
     resizeMode: 'cover',
