@@ -14,11 +14,7 @@ const DeviceAction = ({
 }) => {
   return (
     <Card style={{ ...styles.card, ...style }}>
-      <TouchableNativeFeedback
-        style={styles.touchable}
-        onPress={() => {
-          console.log('hello' + new Date().toISOString());
-        }}>
+      <TouchableNativeFeedback style={styles.touchable} onPress={() => {}}>
         <View style={styles.container}>
           <View style={{ ...styles.iconContainer, backgroundColor: color }}>
             {iconType ? (

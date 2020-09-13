@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { StyleSheet, StatusBar, FlatList, View } from 'react-native';
 import myAppTheme from '../native-base-theme/variables/myAppTheme';
 import getTheme from '../native-base-theme/components';
 import Colors from '../constants/Colors';
-import { StyleProvider, Text, Content, Container, Card } from 'native-base';
+import {
+  StyleProvider,
+  Text,
+  Content,
+  Container,
+  Card,
+  Button,
+  Icon,
+} from 'native-base';
 import { devices, deviceActions } from '../data/dummy';
 import DeviceInfoCard from '../components/DeviceInfoCard';
 import DeviceAction from '../components/DeviceAction';
@@ -11,6 +19,25 @@ import DeviceAction from '../components/DeviceAction';
 const DeviceDetailScreen = ({ navigation, route }) => {
   const { deviceId } = route.params;
   const selectedDevice = devices.find((d) => d.id === deviceId);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Button
+          transparent
+          onPress={() => {
+            navigation.navigate('DeviceLocation', { deviceId: deviceId });
+          }}>
+          <Icon
+            type="MaterialCommunityIcons"
+            name="map-marker-radius-outline"
+            color="white"
+            style={{ color: 'white' }}
+          />
+        </Button>
+      ),
+    });
+  }, [navigation]);
 
   const renderActionItem = (itemData) => {
     return (

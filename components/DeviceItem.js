@@ -25,11 +25,19 @@ const DeviceItem = ({
   onItemPress,
   onMorePress,
 }) => {
-  const mapImageUri = `https://api.neshan.org/v2/static?key=${env.neshanApiKey}&type=dreamy-gold&zoom=17&center=${lat},${lng}&width=400&height=800&marker=red`;
+  // const mapImageUri = `https://api.neshan.org/v2/static?key=${env.neshanApiKey}&type=dreamy-gold&zoom=17&center=${lat},${lng}&width=400&height=800&marker=red`;
+  const mapImageUri = `https://map.ir/static?width=700&height=1200&zoom_level=16&markers=color:skyblue|label:${name}|${lng},${lat}`;
+  const mapImageHeaders = {
+    accept: 'image/png',
+    'x-api-key': env.mapIrApiKey,
+  };
 
   return (
     <Card style={styles.card}>
-      <Image style={styles.image} source={{ uri: mapImageUri }} />
+      <Image
+        style={styles.image}
+        source={{ uri: mapImageUri, headers: mapImageHeaders }}
+      />
       <CardItem style={styles.cardItem}>
         <Icon
           style={styles.primaryText}
