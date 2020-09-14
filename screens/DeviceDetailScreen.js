@@ -32,7 +32,7 @@ const DeviceDetailScreen = ({ navigation, route }) => {
             type="MaterialCommunityIcons"
             name="map-marker-radius-outline"
             color="white"
-            style={{ color: 'white' }}
+            style={{ color: 'white', fontSize: myAppTheme.iconFontSize }}
           />
         </Button>
       ),

@@ -175,9 +175,9 @@ export default {
   fabWidth: 56,
 
   // Font
-  DefaultFontSize: 16,
+  DefaultFontSize: 14,
   fontFamily: platform === PLATFORM.IOS ? 'System' : 'shabnam',
-  fontSizeBase: 15,
+  fontSizeBase: 14,
   get fontSizeH1() {
     return this.fontSizeBase * 1.8;
   },
@@ -299,8 +299,8 @@ export default {
   },
 
   // Title
-  titleFontfamily: platform === PLATFORM.IOS ? 'System' : 'shabnam-bold',
-  titleFontSize: platform === PLATFORM.IOS ? 17 : 19,
+  titleFontfamily: platform === PLATFORM.IOS ? 'System' : 'shabnam',
+  titleFontSize: platform === PLATFORM.IOS ? 17 : 18,
   subTitleFontSize: platform === PLATFORM.IOS ? 11 : 14,
   subtitleColor: platform === PLATFORM.IOS ? '#8e8e93' : '#FFF',
   titleFontColor: platform === PLATFORM.IOS ? '#000' : '#FFF',

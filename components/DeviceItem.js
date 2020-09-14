@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Body,
   Card,
@@ -11,7 +11,7 @@ import {
   Left,
   Button,
 } from 'native-base';
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet, Image, PixelRatio } from 'react-native';
 import { env } from '../constants/env';
 
 const DeviceItem = ({
@@ -26,8 +26,57 @@ const DeviceItem = ({
   onMorePress,
   style,
 }) => {
+  const [imageWidth, setImageWidth] = useState(0);
+  const [imageHeight, setImageHeight] = useState(0);
+  const [uri, setUri] = useState(
+    `https://map.ir/static?width=${imageWidth}&height=${imageHeight}&zoom_level=16&markers=color:skyblue|label:${name}|${lng},${lat}`,
+  );
+
+  const imageLayoutChanged = useCallback(
+    (width, height) => {
+      if (width === 0 || height === 0) {
+        return;
+      }
+      if (width === imageWidth && height === imageHeight) {
+        return;
+      }
+
+      console.log('PixelRatio: ' + PixelRatio.get());
+      if (width <= 1200 && height <= 1200) {
+        width = width * 1.5;
+        height = height * 1.5;
+        // console.log('Actual Width: ' + width);
+        // width = PixelRatio.getPixelSizeForLayoutSize(width);
+        // height = PixelRatio.getPixelSizeForLayoutSize(height);
+        // console.log('Pixel Width: ' + width);
+      }
+
+      let newWidth;
+      let newHeight;
+      if (width <= 1200 && height <= 1200) {
+        newWidth = width;
+        newHeight = height;
+      } else if (height > width) {
+        newWidth = 1200 * (width / height);
+        newHeight = 1200;
+      } else {
+        newHeight = 1200 * (height / width);
+        newWidth = 1200;
+      }
+      setImageWidth(newWidth);
+      setImageHeight(newHeight);
+    },
+    [imageWidth, setImageWidth, imageHeight, setImageHeight],
+  );
+
+  useEffect(() => {
+    console.log(`Layout: ${imageWidth}, ${imageHeight}`);
+    setUri(
+      `https://map.ir/static?width=${imageWidth}&height=${imageHeight}&zoom_level=16&markers=color:skyblue|label:${name}|${lng},${lat}`,
+    );
+  }, [imageWidth, imageHeight, name, lng, lat, setUri]);
+
   // const mapImageUri = `https://api.neshan.org/v2/static?key=${env.neshanApiKey}&type=dreamy-gold&zoom=17&center=${lat},${lng}&width=400&height=800&marker=red`;
-  const mapImageUri = `https://map.ir/static?width=700&height=1200&zoom_level=16&markers=color:skyblue|label:${name}|${lng},${lat}`;
   const mapImageHeaders = {
     accept: 'image/png',
     'x-api-key': env.mapIrApiKey,
@@ -37,9 +86,15 @@ const DeviceItem = ({
     <Card style={{ ...styles.card, ...style }}>
       <Image
         style={styles.image}
-        source={{ uri: mapImageUri, headers: mapImageHeaders }}
+        source={{ uri: uri, headers: mapImageHeaders }}
+        onLayout={(event) => {
+          imageLayoutChanged(
+            event.nativeEvent.layout.width,
+            event.nativeEvent.layout.height,
+          );
+        }}
       />
-      <CardItem style={styles.cardItem}>
+      <CardItem style={{ ...styles.cardItem, marginTop: 4 }}>
         <Icon
           style={styles.primaryText}
           type="MaterialCommunityIcons"
@@ -88,23 +143,21 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 10,
     overflow: 'hidden',
-    marginLeft: 10,
-    // maxWidth: '100%',
-    // maxWidth: 350,
   },
   image: {
     resizeMode: 'cover',
-    width: 400,
+    // width: 400,
     // height: 500,
     flex: 1,
   },
   cardItem: {
-    paddingTop: 4,
-    paddingBottom: 4,
+    paddingTop: 0,
+    paddingBottom: 0,
     alignItems: 'flex-start',
   },
   bodyText: {
     marginStart: 6,
+    flex: 1,
   },
   primaryText: {
     opacity: 0.8,

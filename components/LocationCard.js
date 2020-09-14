@@ -1,5 +1,5 @@
 import { Button, Card, Icon, Text, View } from 'native-base';
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   StyleSheet,
   useWindowDimensions,
@@ -7,17 +7,60 @@ import {
   Linking,
   Platform,
   TouchableNativeFeedback,
+  PixelRatio,
 } from 'react-native';
 import { env } from '../constants/env';
 import Colors from '../constants/Colors';
 
 const LocationCard = ({ style, lat, lng, name }) => {
-  const window = useWindowDimensions();
-  const mapImageUri = `https://map.ir/static?width=700&height=1200&zoom_level=16&markers=color:skyblue|label:${name}|${lng},${lat}`;
+  const [imageWidth, setImageWidth] = useState(0);
+  const [imageHeight, setImageHeight] = useState(0);
+  const [uri, setUri] = useState(
+    `https://map.ir/static?width=${imageWidth}&height=${imageHeight}&zoom_level=16&markers=color:skyblue|label:${name}|${lng},${lat}`,
+  );
   const mapImageHeaders = {
     accept: 'image/png',
     'x-api-key': env.mapIrApiKey,
   };
+
+  const imageLayoutChanged = useCallback(
+    (width, height) => {
+      console.log(`imageLayoutChanged: ${width}, ${height}`);
+      if (width === 0 || height === 0) {
+        return;
+      }
+      if (width === imageWidth && height === imageHeight) {
+        return;
+      }
+
+      if (width <= 1200 && height <= 1200) {
+        width = PixelRatio.getPixelSizeForLayoutSize(width);
+        height = PixelRatio.getPixelSizeForLayoutSize(height);
+      }
+
+      let newWidth;
+      let newHeight;
+      if (width <= 1200 && height <= 1200) {
+        newWidth = width;
+        newHeight = height;
+      } else if (height > width) {
+        newWidth = 1200 * (width / height);
+        newHeight = 1200;
+      } else {
+        newHeight = 1200 * (height / width);
+        newWidth = 1200;
+      }
+      setImageWidth(newWidth);
+      setImageHeight(newHeight);
+    },
+    [imageWidth, setImageWidth, imageHeight, setImageHeight],
+  );
+
+  useEffect(() => {
+    setUri(
+      `https://map.ir/static?width=${imageWidth}&height=${imageHeight}&zoom_level=16&markers=color:skyblue|label:${name}|${lng},${lat}`,
+    );
+  }, [imageWidth, imageHeight, name, lng, lat, setUri]);
 
   const openGoogleMapsHandler = () => {
     const scheme = Platform.select({
@@ -25,7 +68,7 @@ const LocationCard = ({ style, lat, lng, name }) => {
       android: 'geo:0,0?q=',
     });
     const latLng = `${lat},${lng}`;
-    const label = { name };
+    const label = name;
     const url = Platform.select({
       ios: `${scheme}${label}@${latLng}`,
       android: `${scheme}${latLng}(${label})`,
@@ -37,10 +80,17 @@ const LocationCard = ({ style, lat, lng, name }) => {
     <Card style={{ ...styles.card, ...style }}>
       <TouchableNativeFeedback
         onPress={openGoogleMapsHandler}
-        style={{ flex: 1 }}>
+        style={{ flex: 1 }}
+        useForeground
+        onLayout={(event) => {
+          imageLayoutChanged(
+            event.nativeEvent.layout.width,
+            event.nativeEvent.layout.height,
+          );
+        }}>
         <Image
           style={styles.image}
-          source={{ uri: mapImageUri, headers: mapImageHeaders }}
+          source={{ uri: uri, headers: mapImageHeaders }}
         />
       </TouchableNativeFeedback>
       <View style={styles.cardItem}>
@@ -69,10 +119,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     borderRadius: 10,
   },
-  map: {
-    height: 800,
-    width: 600,
-  },
   image: {
     resizeMode: 'cover',
     flex: 1,
@@ -95,7 +141,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     color: Colors.primary,
-    fontSize: 36,
+    // fontSize: 36,
   },
 });
 

@@ -5,13 +5,15 @@ import DeviceDetailScreen from '../screens/DeviceDetailScreen';
 import DeviceLocationScreen from '../screens/DeviceLocationScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import Colors from '../constants/Colors';
+import myAppTheme from '../native-base-theme/variables/myAppTheme';
 
 const defaultNavOptions = {
   headerStyle: {
     backgroundColor: Colors.primary,
   },
   headerTitleStyle: {
-    fontFamily: 'shabnam',
+    fontFamily: myAppTheme.titleFontfamily,
+    fontSize: myAppTheme.titleFontSize,
   },
   headerTintColor: 'white',
 };

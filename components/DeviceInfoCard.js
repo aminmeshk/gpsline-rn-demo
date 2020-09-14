@@ -78,6 +78,8 @@ const styles = StyleSheet.create({
   },
   infoText: {
     color: Colors.secondaryText,
+    flex: 1,
+    textAlign: 'left',
   },
 });
 

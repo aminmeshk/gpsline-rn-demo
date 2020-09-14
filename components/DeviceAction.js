@@ -1,6 +1,7 @@
 import { Card, Icon, View, Text, ListItem } from 'native-base';
 import React from 'react';
 import { StyleSheet, TouchableNativeFeedback } from 'react-native';
+import myAppTheme from '../native-base-theme/variables/myAppTheme';
 
 const DeviceAction = ({
   id,
@@ -14,7 +15,10 @@ const DeviceAction = ({
 }) => {
   return (
     <Card style={{ ...styles.card, ...style }}>
-      <TouchableNativeFeedback style={styles.touchable} onPress={() => {}}>
+      <TouchableNativeFeedback
+        style={styles.touchable}
+        onPress={() => {}}
+        useForeground>
         <View style={styles.container}>
           <View style={{ ...styles.iconContainer, backgroundColor: color }}>
             {iconType ? (
@@ -57,14 +61,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   icon: {
-    fontSize: 50,
+    fontSize: myAppTheme.iconFontSize * 1.8,
     color: 'white',
     textAlign: 'center',
   },
   iconText: {
     fontFamily: 'sans-serif',
     fontWeight: 'bold',
-    fontSize: 22,
+    fontSize: myAppTheme.DefaultFontSize * 1.7,
     color: 'white',
   },
   iconContainer: {
@@ -93,7 +97,7 @@ const styles = StyleSheet.create({
   },
   description: {
     opacity: 0.6,
-    fontSize: 13,
+    fontSize: myAppTheme.DefaultFontSize * 0.8,
   },
 });
 
