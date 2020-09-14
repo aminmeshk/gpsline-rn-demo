@@ -41,7 +41,6 @@ const DeviceItem = ({
         return;
       }
 
-      console.log('PixelRatio: ' + PixelRatio.get());
       if (width <= 1200 && height <= 1200) {
         width = width * 1.5;
         height = height * 1.5;
@@ -70,7 +69,6 @@ const DeviceItem = ({
   );
 
   useEffect(() => {
-    console.log(`Layout: ${imageWidth}, ${imageHeight}`);
     setUri(
       `https://map.ir/static?width=${imageWidth}&height=${imageHeight}&zoom_level=16&markers=color:skyblue|label:${name}|${lng},${lat}`,
     );

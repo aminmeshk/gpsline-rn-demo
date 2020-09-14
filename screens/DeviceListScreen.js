@@ -21,8 +21,6 @@ const DeviceListScreen = ({ navigation }) => {
   // const items = devices.reverse();
   const items = devices.slice().reverse();
 
-  const [width, setWidth] = useState(viewportWidth);
-
   const renderItem = (itemData) => {
     return (
       <DeviceItem
@@ -52,14 +50,6 @@ const DeviceListScreen = ({ navigation }) => {
           backgroundColor={Colors.primaryDark}
         />
         <View style={styles.content}>
-          {/* <FlatList
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            data={devices}
-            renderItem={renderItem}
-            style={styles.list}
-            contentInset={[30, 0, 0, 0]}
-          /> */}
           <Carousel
             data={items}
             renderItem={renderItem}
@@ -74,9 +64,6 @@ const DeviceListScreen = ({ navigation }) => {
             inactiveSlideShift={0}
             inactiveSlideScale={0.8}
             inactiveSlideOpacity={0.5}
-            // onLayout={() => {
-            //   setWidth(Dimensions.get('window').width);
-            // }}
             sliderHeight={useWindowDimensions().height * 0.5}
           />
         </View>

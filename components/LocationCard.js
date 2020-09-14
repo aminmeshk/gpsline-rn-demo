@@ -25,7 +25,7 @@ const LocationCard = ({ style, lat, lng, name }) => {
 
   const imageLayoutChanged = useCallback(
     (width, height) => {
-      console.log(`imageLayoutChanged: ${width}, ${height}`);
+      // console.log(`imageLayoutChanged: ${width}, ${height}`);
       if (width === 0 || height === 0) {
         return;
       }
