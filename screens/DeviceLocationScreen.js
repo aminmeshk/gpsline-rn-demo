@@ -13,6 +13,7 @@ import {
   View,
 } from 'native-base';
 import LocationCard from '../components/LocationCard';
+import SimpleMapIrView from '../nativeModules/SimpleMapIrView';
 
 const DeviceLocationScreen = ({ navigation, route }) => {
   const { deviceId } = route.params;
@@ -26,6 +27,20 @@ const DeviceLocationScreen = ({ navigation, route }) => {
           backgroundColor={Colors.primaryDark}
         />
         <View style={styles.content}>
+          {/* <LocationCard
+            style={styles.locationCard}
+            lat={selectedDevice.lat}
+            lng={selectedDevice.lng}
+            name={selectedDevice.name}
+          /> */}
+          <SimpleMapIrView
+            style={styles.map}
+            markerLocation={{
+              lat: selectedDevice.lat,
+              lng: selectedDevice.lng,
+              zoom: 15,
+            }}
+          />
           <LocationCard
             style={styles.locationCard}
             lat={selectedDevice.lat}
@@ -41,10 +56,18 @@ const DeviceLocationScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   content: {
     flex: 1,
-    padding: 16,
+    padding: 0,
+  },
+  map: {
+    flex: 1,
   },
   locationCard: {
-    flex: 1,
+    position: 'absolute',
+    bottom: 30,
+    left: 0,
+    right: 0,
+    marginLeft: 16,
+    marginRight: 16,
   },
 });
 

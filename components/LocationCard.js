@@ -8,59 +8,42 @@ import {
   Platform,
   TouchableNativeFeedback,
   PixelRatio,
+  ActivityIndicator,
 } from 'react-native';
 import { env } from '../constants/env';
 import Colors from '../constants/Colors';
 
 const LocationCard = ({ style, lat, lng, name }) => {
-  const [imageWidth, setImageWidth] = useState(0);
-  const [imageHeight, setImageHeight] = useState(0);
-  const [uri, setUri] = useState(
-    `https://map.ir/static?width=${imageWidth}&height=${imageHeight}&zoom_level=16&markers=color:skyblue|label:${name}|${lng},${lat}`,
-  );
-  const mapImageHeaders = {
-    accept: 'image/png',
-    'x-api-key': env.mapIrApiKey,
-  };
+  const [address, setAddress] = useState();
 
-  const imageLayoutChanged = useCallback(
-    (width, height) => {
-      // console.log(`imageLayoutChanged: ${width}, ${height}`);
-      if (width === 0 || height === 0) {
+  const callAddressApi = useCallback(async () => {
+    try {
+      // console.log('sending call');
+      const response = await fetch(
+        `https://map.ir/reverse?lat=${lat}&lon=${lng}`,
+        {
+          headers: {
+            'x-api-key': env.mapIrApiKey,
+          },
+        },
+      );
+      if (!response.ok) {
         return;
       }
-      if (width === imageWidth && height === imageHeight) {
+      const body = await response.json();
+      // console.log(body);
+      if (!body.address) {
         return;
       }
-
-      if (width <= 1200 && height <= 1200) {
-        width = PixelRatio.getPixelSizeForLayoutSize(width);
-        height = PixelRatio.getPixelSizeForLayoutSize(height);
-      }
-
-      let newWidth;
-      let newHeight;
-      if (width <= 1200 && height <= 1200) {
-        newWidth = width;
-        newHeight = height;
-      } else if (height > width) {
-        newWidth = 1200 * (width / height);
-        newHeight = 1200;
-      } else {
-        newHeight = 1200 * (height / width);
-        newWidth = 1200;
-      }
-      setImageWidth(newWidth);
-      setImageHeight(newHeight);
-    },
-    [imageWidth, setImageWidth, imageHeight, setImageHeight],
-  );
+      setAddress(body.address);
+    } catch (err) {
+      console.log(err);
+    }
+  }, [lng, lat, setAddress]);
 
   useEffect(() => {
-    setUri(
-      `https://map.ir/static?width=${imageWidth}&height=${imageHeight}&zoom_level=16&markers=color:skyblue|label:${name}|${lng},${lat}`,
-    );
-  }, [imageWidth, imageHeight, name, lng, lat, setUri]);
+    callAddressApi();
+  }, [callAddressApi]);
 
   const openGoogleMapsHandler = () => {
     const scheme = Platform.select({
@@ -78,29 +61,27 @@ const LocationCard = ({ style, lat, lng, name }) => {
 
   return (
     <Card style={{ ...styles.card, ...style }}>
-      <TouchableNativeFeedback
-        onPress={openGoogleMapsHandler}
-        style={{ flex: 1 }}
-        useForeground
-        onLayout={(event) => {
-          imageLayoutChanged(
-            event.nativeEvent.layout.width,
-            event.nativeEvent.layout.height,
-          );
-        }}>
-        <Image
-          style={styles.image}
-          source={{ uri: uri, headers: mapImageHeaders }}
-        />
-      </TouchableNativeFeedback>
+      <View style={styles.cardItem}>
+        <Text style={{ alignSelf: 'flex-start', marginEnd: 10 }}>آدرس:</Text>
+        {!address ? (
+          <ActivityIndicator size="small" color={Colors.primary} />
+        ) : (
+          <Text style={styles.secondaryText}>{address}</Text>
+        )}
+      </View>
       <View style={styles.cardItem}>
         <Text>طول جغرافیایی:</Text>
-        <Text style={{ writingDirection: 'ltr' }}>{lat}</Text>
+        <Text style={{ ...styles.secondaryText, writingDirection: 'ltr' }}>
+          {lat}
+        </Text>
       </View>
       <View style={styles.cardItem}>
         <Text>عرض جغرافیایی:</Text>
-        <Text style={{ writingDirection: 'ltr' }}>{lng}</Text>
+        <Text style={{ ...styles.secondaryText, writingDirection: 'ltr' }}>
+          {lng}
+        </Text>
       </View>
+
       <View style={styles.cardItem}>
         <Text>نمایش نقشه در گوگل:</Text>
         <Icon
@@ -118,10 +99,7 @@ const styles = StyleSheet.create({
   card: {
     overflow: 'hidden',
     borderRadius: 10,
-  },
-  image: {
-    resizeMode: 'cover',
-    flex: 1,
+    opacity: 0.9,
   },
   cardItem: {
     alignSelf: 'stretch',
@@ -142,6 +120,10 @@ const styles = StyleSheet.create({
   icon: {
     color: Colors.primary,
     // fontSize: 36,
+  },
+  secondaryText: {
+    flex: 1,
+    opacity: 0.6,
   },
 });
 
