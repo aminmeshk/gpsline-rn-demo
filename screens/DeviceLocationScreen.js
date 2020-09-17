@@ -14,10 +14,21 @@ import {
 } from 'native-base';
 import LocationCard from '../components/LocationCard';
 import SimpleMapIrView from '../nativeModules/SimpleMapIrView';
+import BottomSheet from 'reanimated-bottom-sheet';
 
 const DeviceLocationScreen = ({ navigation, route }) => {
   const { deviceId } = route.params;
   const selectedDevice = devices.find((d) => d.id === deviceId);
+  const renderBottomSheetContent = () => {
+    return (
+      <LocationCard
+        style={styles.locationCard}
+        lat={selectedDevice.lat}
+        lng={selectedDevice.lng}
+        name={selectedDevice.name}
+      />
+    );
+  };
 
   return (
     <StyleProvider style={getTheme(myAppTheme)}>
@@ -27,12 +38,6 @@ const DeviceLocationScreen = ({ navigation, route }) => {
           backgroundColor={Colors.primaryDark}
         />
         <View style={styles.content}>
-          {/* <LocationCard
-            style={styles.locationCard}
-            lat={selectedDevice.lat}
-            lng={selectedDevice.lng}
-            name={selectedDevice.name}
-          /> */}
           <SimpleMapIrView
             style={styles.map}
             markerLocation={{
@@ -41,11 +46,11 @@ const DeviceLocationScreen = ({ navigation, route }) => {
               zoom: 15,
             }}
           />
-          <LocationCard
-            style={styles.locationCard}
-            lat={selectedDevice.lat}
-            lng={selectedDevice.lng}
-            name={selectedDevice.name}
+          <BottomSheet
+            snapPoints={[230, 32]}
+            renderContent={renderBottomSheetContent}
+            enabledBottomInitialAnimation={true}
+            enabledInnerScrolling={false}
           />
         </View>
       </Container>
@@ -62,12 +67,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   locationCard: {
-    position: 'absolute',
-    bottom: 30,
-    left: 0,
-    right: 0,
-    marginLeft: 16,
-    marginRight: 16,
+    height: 500,
   },
 });
 

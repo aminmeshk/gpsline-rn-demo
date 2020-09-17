@@ -61,6 +61,20 @@ const LocationCard = ({ style, lat, lng, name }) => {
 
   return (
     <Card style={{ ...styles.card, ...style }}>
+      <View
+        style={{
+          ...styles.cardItem,
+          justifyContent: 'center',
+          borderBottomWidth: 0,
+        }}>
+        <View
+          style={{
+            height: 5,
+            width: 30,
+            backgroundColor: '#aaa',
+            borderRadius: 3,
+          }}></View>
+      </View>
       <View style={styles.cardItem}>
         <Text style={{ alignSelf: 'flex-start', marginEnd: 10 }}>آدرس:</Text>
         {!address ? (
@@ -81,8 +95,7 @@ const LocationCard = ({ style, lat, lng, name }) => {
           {lng}
         </Text>
       </View>
-
-      <View style={styles.cardItem}>
+      <View style={{ ...styles.cardItem, borderBottomWidth: 0 }}>
         <Text>نمایش نقشه در گوگل:</Text>
         <Icon
           type="Ionicons"
@@ -98,8 +111,8 @@ const LocationCard = ({ style, lat, lng, name }) => {
 const styles = StyleSheet.create({
   card: {
     overflow: 'hidden',
-    borderRadius: 10,
-    opacity: 0.9,
+    borderRadius: 20,
+    // opacity: 0.9,
   },
   cardItem: {
     alignSelf: 'stretch',
