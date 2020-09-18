@@ -1,14 +1,24 @@
 import { Card, CardItem, Icon, ListItem, Text, View } from 'native-base';
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ViewStyle } from 'react-native';
 import Colors from '../constants/Colors';
 
-const DeviceInfoCard = ({ style, name, service, type, car, imei, phone }) => {
+export interface Props {
+  name: string;
+  service: string;
+  type: string;
+  car: string;
+  imei: string;
+  phone: string;
+  style?: ViewStyle;
+}
+
+const DeviceInfoCard: React.FC<Props> = (props) => {
   return (
-    <Card style={{ ...styles.card, ...style }}>
+    <Card style={{ ...styles.card, ...props.style }}>
       <CardItem bordered style={styles.headerCardItem}>
-        <Text style={styles.name}>{name}</Text>
-        <Text style={styles.service}>{service}</Text>
+        <Text style={styles.name}>{props.name}</Text>
+        <Text style={styles.service}>{props.service}</Text>
       </CardItem>
       <CardItem style={styles.bodyCardItem}>
         <View style={styles.infoContainer}>
@@ -18,7 +28,7 @@ const DeviceInfoCard = ({ style, name, service, type, car, imei, phone }) => {
               name="google-cardboard"
               style={styles.icon}
             />
-            <Text style={styles.infoText}>{type}</Text>
+            <Text style={styles.infoText}>{props.type}</Text>
           </View>
           <View style={styles.infoItem}>
             <Icon
@@ -26,11 +36,11 @@ const DeviceInfoCard = ({ style, name, service, type, car, imei, phone }) => {
               name="barcode-scan"
               style={styles.icon}
             />
-            <Text style={styles.infoText}>{imei}</Text>
+            <Text style={styles.infoText}>{props.imei}</Text>
           </View>
           <View style={styles.infoItem}>
             <Icon type="Ionicons" name="car-outline" style={styles.icon} />
-            <Text style={styles.infoText}>{car}</Text>
+            <Text style={styles.infoText}>{props.car}</Text>
           </View>
           <View style={styles.infoItem}>
             <Icon
@@ -38,7 +48,7 @@ const DeviceInfoCard = ({ style, name, service, type, car, imei, phone }) => {
               name="sim"
               style={styles.icon}
             />
-            <Text style={styles.infoText}>{phone}</Text>
+            <Text style={styles.infoText}>{props.phone}</Text>
           </View>
         </View>
       </CardItem>

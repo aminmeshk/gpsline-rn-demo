@@ -1,27 +1,30 @@
-import { Container, Content, StyleProvider, View } from 'native-base';
-import React, { useState } from 'react';
-import {
-  StyleSheet,
-  StatusBar,
-  FlatList,
-  Dimensions,
-  useWindowDimensions,
-} from 'react-native';
+import { Container, StyleProvider, View } from 'native-base';
+import React from 'react';
+import { StyleSheet, StatusBar, useWindowDimensions } from 'react-native';
 import Colors from '../constants/Colors';
 import myAppTheme from '../native-base-theme/variables/myAppTheme';
 import getTheme from '../native-base-theme/components';
 import { devices } from '../data/dummy';
 import DeviceItem from '../components/DeviceItem';
 import Carousel from 'react-native-snap-carousel';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../navigation/AppNavigator';
+import Device from '../models/device';
 
-const DeviceListScreen = ({ navigation }) => {
-  const { width: viewportWidth, height: viewportHeight } = Dimensions.get(
-    'window',
-  );
-  // const items = devices.reverse();
+type ScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'DeviceList'
+>;
+
+export interface Props {
+  navigation: ScreenNavigationProp;
+}
+
+const DeviceListScreen: React.FC<Props> = (props) => {
+  const { navigation } = props;
   const items = devices.slice().reverse();
 
-  const renderItem = (itemData) => {
+  const renderItem = (itemData: { item: Device }) => {
     return (
       <DeviceItem
         id={itemData.item.id}
@@ -58,7 +61,6 @@ const DeviceListScreen = ({ navigation }) => {
             slideStyle={{
               width: useWindowDimensions().width * 0.95,
               marginVertical: 8,
-              // marginHorizontal: 8,
             }}
             layout={'default'}
             inactiveSlideShift={0}
@@ -75,7 +77,6 @@ const DeviceListScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   content: {
     flex: 1,
-    // paddingVertical: 16,
   },
   deviceItem: {
     flex: 1,

@@ -1,26 +1,30 @@
-import { Button, Card, Icon, Text, View } from 'native-base';
+import { Card, Icon, Text, View } from 'native-base';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   StyleSheet,
-  useWindowDimensions,
-  Image,
   Linking,
   Platform,
-  TouchableNativeFeedback,
-  PixelRatio,
   ActivityIndicator,
+  ViewStyle,
 } from 'react-native';
 import { env } from '../constants/env';
 import Colors from '../constants/Colors';
 
-const LocationCard = ({ style, lat, lng, name }) => {
+export interface Props {
+  style?: ViewStyle;
+  lat: number;
+  lng: number;
+  name: string;
+}
+
+const LocationCard: React.FC<Props> = (props) => {
   const [address, setAddress] = useState();
 
   const callAddressApi = useCallback(async () => {
     try {
       // console.log('sending call');
       const response = await fetch(
-        `https://map.ir/reverse?lat=${lat}&lon=${lng}`,
+        `https://map.ir/reverse?lat=${props.lat}&lon=${props.lng}`,
         {
           headers: {
             'x-api-key': env.mapIrApiKey,
@@ -31,7 +35,6 @@ const LocationCard = ({ style, lat, lng, name }) => {
         return;
       }
       const body = await response.json();
-      // console.log(body);
       if (!body.address) {
         return;
       }
@@ -39,7 +42,7 @@ const LocationCard = ({ style, lat, lng, name }) => {
     } catch (err) {
       console.log(err);
     }
-  }, [lng, lat, setAddress]);
+  }, [props.lng, props.lat, setAddress]);
 
   useEffect(() => {
     callAddressApi();
@@ -50,17 +53,17 @@ const LocationCard = ({ style, lat, lng, name }) => {
       ios: 'maps:0,0?q=',
       android: 'geo:0,0?q=',
     });
-    const latLng = `${lat},${lng}`;
-    const label = name;
+    const latLng = `${props.lat},${props.lng}`;
+    const label = props.name;
     const url = Platform.select({
       ios: `${scheme}${label}@${latLng}`,
       android: `${scheme}${latLng}(${label})`,
-    });
+    }) as string;
     Linking.openURL(url);
   };
 
   return (
-    <Card style={{ ...styles.card, ...style }}>
+    <Card style={{ ...styles.card, ...props.style }}>
       <View
         style={{
           ...styles.cardItem,
@@ -86,13 +89,13 @@ const LocationCard = ({ style, lat, lng, name }) => {
       <View style={styles.cardItem}>
         <Text>طول جغرافیایی:</Text>
         <Text style={{ ...styles.secondaryText, writingDirection: 'ltr' }}>
-          {lat}
+          {props.lat}
         </Text>
       </View>
       <View style={styles.cardItem}>
         <Text>عرض جغرافیایی:</Text>
         <Text style={{ ...styles.secondaryText, writingDirection: 'ltr' }}>
-          {lng}
+          {props.lng}
         </Text>
       </View>
       <View style={{ ...styles.cardItem, borderBottomWidth: 0 }}>

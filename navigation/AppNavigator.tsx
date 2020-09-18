@@ -1,13 +1,15 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import DeviceListScreen from '../screens/DeviceListScreen';
 import DeviceDetailScreen from '../screens/DeviceDetailScreen';
 import DeviceLocationScreen from '../screens/DeviceLocationScreen';
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  StackNavigationOptions,
+} from '@react-navigation/stack';
 import Colors from '../constants/Colors';
 import myAppTheme from '../native-base-theme/variables/myAppTheme';
 
-const defaultNavOptions = {
+const defaultNavOptions: StackNavigationOptions = {
   headerStyle: {
     backgroundColor: Colors.primary,
   },
@@ -18,9 +20,17 @@ const defaultNavOptions = {
   headerTintColor: 'white',
 };
 
-const AppStackNavigator = createStackNavigator();
+export type RootStackParamList = {
+  DeviceList: undefined;
+  DeviceDetail: { deviceId: string };
+  DeviceLocation: { deviceId: string };
+};
 
-const AppNavigator = (props) => {
+const AppStackNavigator = createStackNavigator<RootStackParamList>();
+
+export interface Props {}
+
+const AppNavigator: React.FC<Props> = (props) => {
   return (
     <AppStackNavigator.Navigator screenOptions={defaultNavOptions}>
       <AppStackNavigator.Screen
