@@ -1,9 +1,26 @@
-import { Card, Icon, View, Text, ListItem } from 'native-base';
+import { Card, Icon, View, Text } from 'native-base';
 import React from 'react';
-import { StyleSheet, TouchableNativeFeedback } from 'react-native';
+import {
+  ColorValue,
+  StyleSheet,
+  TouchableNativeFeedback,
+  ViewStyle,
+} from 'react-native';
+import { IconType } from '../models/iconType';
 import myAppTheme from '../native-base-theme/variables/myAppTheme';
 
-const DeviceAction = ({
+export interface Props {
+  id: string;
+  name: string;
+  description: string;
+  iconType?: IconType;
+  iconName?: string;
+  textAsIcon?: string;
+  color: ColorValue;
+  style?: ViewStyle;
+}
+
+const DeviceAction: React.FC<Props> = ({
   id,
   name,
   description,
@@ -31,7 +48,7 @@ const DeviceAction = ({
             <View style={styles.titleListItem}>
               <Text>{name}</Text>
             </View>
-            <View style={styles.descriptionListItem} noBorder>
+            <View style={styles.descriptionListItem}>
               <Text style={styles.description}>{description}</Text>
             </View>
           </View>

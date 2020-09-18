@@ -1,35 +1,26 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import {
-  Body,
-  Card,
-  ListItem,
-  View,
-  Text,
-  Icon,
-  Right,
-  CardItem,
-  Left,
-  Button,
-} from 'native-base';
-import { StyleSheet, Image, PixelRatio } from 'react-native';
+import { Body, Card, Text, Icon, CardItem, Button } from 'native-base';
+import { StyleSheet, Image, ViewStyle } from 'react-native';
 import { env } from '../constants/env';
 
-const DeviceItem = ({
-  id,
-  name,
-  service,
-  car,
-  imei,
-  lat,
-  lng,
-  onItemPress,
-  onMorePress,
-  style,
-}) => {
+export interface Props {
+  id: string;
+  name: string;
+  service: string;
+  car: string;
+  imei: string;
+  lat: number;
+  lng: number;
+  onItemPress?: () => void;
+  onMorePress?: () => void;
+  style?: ViewStyle;
+}
+
+const DeviceItem: React.FC<Props> = (props) => {
   const [imageWidth, setImageWidth] = useState(0);
   const [imageHeight, setImageHeight] = useState(0);
   const [uri, setUri] = useState(
-    `https://map.ir/static?width=${imageWidth}&height=${imageHeight}&zoom_level=16&markers=color:skyblue|label:${name}|${lng},${lat}`,
+    `https://map.ir/static?width=${imageWidth}&height=${imageHeight}&zoom_level=16&markers=color:skyblue|label:${props.name}|${props.lng},${props.lat}`,
   );
 
   const imageLayoutChanged = useCallback(
@@ -70,9 +61,9 @@ const DeviceItem = ({
 
   useEffect(() => {
     setUri(
-      `https://map.ir/static?width=${imageWidth}&height=${imageHeight}&zoom_level=16&markers=color:skyblue|label:${name}|${lng},${lat}`,
+      `https://map.ir/static?width=${imageWidth}&height=${imageHeight}&zoom_level=16&markers=color:skyblue|label:${props.name}|${props.lng},${props.lat}`,
     );
-  }, [imageWidth, imageHeight, name, lng, lat, setUri]);
+  }, [imageWidth, imageHeight, props.name, props.lng, props.lat, setUri]);
 
   // const mapImageUri = `https://api.neshan.org/v2/static?key=${env.neshanApiKey}&type=dreamy-gold&zoom=17&center=${lat},${lng}&width=400&height=800&marker=red`;
   const mapImageHeaders = {
@@ -81,7 +72,7 @@ const DeviceItem = ({
   };
 
   return (
-    <Card style={{ ...styles.card, ...style }}>
+    <Card style={{ ...styles.card, ...props.style }}>
       <Image
         style={styles.image}
         source={{ uri: uri, headers: mapImageHeaders }}
@@ -99,7 +90,7 @@ const DeviceItem = ({
           name="google-cardboard"
         />
         <Body style={styles.bodyText}>
-          <Text style={styles.primaryText}>{name}</Text>
+          <Text style={styles.primaryText}>{props.name}</Text>
         </Body>
       </CardItem>
       <CardItem style={styles.cardItem}>
@@ -109,13 +100,13 @@ const DeviceItem = ({
           name="diamond-stone"
         />
         <Body style={styles.bodyText}>
-          <Text style={styles.secondaryText}>{service}</Text>
+          <Text style={styles.secondaryText}>{props.service}</Text>
         </Body>
       </CardItem>
       <CardItem style={styles.cardItem}>
         <Icon style={styles.secondaryText} type="Ionicons" name="car-outline" />
         <Body style={styles.bodyText}>
-          <Text style={styles.secondaryText}>{car}</Text>
+          <Text style={styles.secondaryText}>{props.car}</Text>
         </Body>
       </CardItem>
       <CardItem style={styles.cardItem}>
@@ -125,11 +116,15 @@ const DeviceItem = ({
           name="barcode-scan"
         />
         <Body style={styles.bodyText}>
-          <Text style={styles.secondaryText}>{imei}</Text>
+          <Text style={styles.secondaryText}>{props.imei}</Text>
         </Body>
       </CardItem>
       <CardItem footer>
-        <Button full primary style={styles.moreButton} onPress={onMorePress}>
+        <Button
+          full
+          primary
+          style={styles.moreButton}
+          onPress={props.onMorePress}>
           <Text>بیشتر</Text>
         </Button>
       </CardItem>
@@ -144,8 +139,6 @@ const styles = StyleSheet.create({
   },
   image: {
     resizeMode: 'cover',
-    // width: 400,
-    // height: 500,
     flex: 1,
   },
   cardItem: {

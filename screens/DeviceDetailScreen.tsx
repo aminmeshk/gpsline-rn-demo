@@ -3,22 +3,32 @@ import { StyleSheet, StatusBar, FlatList, View } from 'react-native';
 import myAppTheme from '../native-base-theme/variables/myAppTheme';
 import getTheme from '../native-base-theme/components';
 import Colors from '../constants/Colors';
-import {
-  StyleProvider,
-  Text,
-  Content,
-  Container,
-  Card,
-  Button,
-  Icon,
-} from 'native-base';
+import { StyleProvider, Container, Button, Icon } from 'native-base';
 import { devices, deviceActions } from '../data/dummy';
 import DeviceInfoCard from '../components/DeviceInfoCard';
 import DeviceAction from '../components/DeviceAction';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../navigation/AppNavigator';
+import { RouteProp } from '@react-navigation/native';
+import Device from '../models/device';
+import DeviceActionModel from '../models/deviceAction';
 
-const DeviceDetailScreen = ({ navigation, route }) => {
-  const { deviceId } = route.params;
-  const selectedDevice = devices.find((d) => d.id === deviceId);
+type ScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'DeviceDetail'
+>;
+
+type ScreenRouteProp = RouteProp<RootStackParamList, 'DeviceDetail'>;
+
+export interface Props {
+  navigation: ScreenNavigationProp;
+  route: ScreenRouteProp;
+}
+
+const DeviceDetailScreen: React.FC<Props> = (props) => {
+  const { navigation, route } = props;
+  const deviceId = route.params.deviceId;
+  const selectedDevice = devices.find((d) => d.id === deviceId) as Device;
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -39,7 +49,10 @@ const DeviceDetailScreen = ({ navigation, route }) => {
     });
   }, [navigation]);
 
-  const renderActionItem = (itemData) => {
+  const renderActionItem = (itemData: {
+    item: DeviceActionModel;
+    index: number;
+  }) => {
     return (
       <DeviceAction
         id={itemData.item.id}
