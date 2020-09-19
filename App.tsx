@@ -6,7 +6,7 @@ import AppNavigator from './navigation/AppNavigator';
 const App = () => {
   useLayoutEffect(() => {
     I18nManager.forceRTL(true);
-  }, [I18nManager]);
+  }, []);
 
   return (
     <NavigationContainer>

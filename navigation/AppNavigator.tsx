@@ -30,7 +30,7 @@ const AppStackNavigator = createStackNavigator<RootStackParamList>();
 
 export interface Props {}
 
-const AppNavigator: React.FC<Props> = (props) => {
+const AppNavigator: React.FC<Props> = () => {
   return (
     <AppStackNavigator.Navigator screenOptions={defaultNavOptions}>
       <AppStackNavigator.Screen

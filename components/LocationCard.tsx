@@ -35,7 +35,7 @@ const LocationCard: React.FC<Props> = (props) => {
         return;
       }
       const body = await response.json();
-      if (!body.address) {
+      if (body.address) {
         return;
       }
       setAddress(body.address);
@@ -67,19 +67,12 @@ const LocationCard: React.FC<Props> = (props) => {
       <View
         style={{
           ...styles.cardItem,
-          justifyContent: 'center',
-          borderBottomWidth: 0,
+          ...styles.lineContainer,
         }}>
-        <View
-          style={{
-            height: 5,
-            width: 30,
-            backgroundColor: '#aaa',
-            borderRadius: 3,
-          }}></View>
+        <View style={styles.grabLine} />
       </View>
       <View style={styles.cardItem}>
-        <Text style={{ alignSelf: 'flex-start', marginEnd: 10 }}>آدرس:</Text>
+        <Text style={styles.addressLabel}>آدرس:</Text>
         {!address ? (
           <ActivityIndicator size="small" color={Colors.primary} />
         ) : (
@@ -88,17 +81,17 @@ const LocationCard: React.FC<Props> = (props) => {
       </View>
       <View style={styles.cardItem}>
         <Text>طول جغرافیایی:</Text>
-        <Text style={{ ...styles.secondaryText, writingDirection: 'ltr' }}>
+        <Text style={{ ...styles.secondaryText, ...styles.ltr }}>
           {props.lat}
         </Text>
       </View>
       <View style={styles.cardItem}>
         <Text>عرض جغرافیایی:</Text>
-        <Text style={{ ...styles.secondaryText, writingDirection: 'ltr' }}>
+        <Text style={{ ...styles.secondaryText, ...styles.ltr }}>
           {props.lng}
         </Text>
       </View>
-      <View style={{ ...styles.cardItem, borderBottomWidth: 0 }}>
+      <View style={{ ...styles.cardItem, ...styles.noBottomBorder }}>
         <Text>نمایش نقشه در گوگل:</Text>
         <Icon
           type="Ionicons"
@@ -140,6 +133,26 @@ const styles = StyleSheet.create({
   secondaryText: {
     flex: 1,
     opacity: 0.6,
+  },
+  grabLine: {
+    height: 5,
+    width: 30,
+    backgroundColor: '#aaa',
+    borderRadius: 3,
+  },
+  lineContainer: {
+    justifyContent: 'center',
+    borderBottomWidth: 0,
+  },
+  addressLabel: {
+    alignSelf: 'flex-start',
+    marginEnd: 10,
+  },
+  ltr: {
+    writingDirection: 'ltr',
+  },
+  noBottomBorder: {
+    borderBottomWidth: 0,
   },
 });
 

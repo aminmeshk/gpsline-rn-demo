@@ -26,7 +26,7 @@ export interface Props {
 }
 
 const DeviceLocationScreen: React.FC<Props> = (props) => {
-  const { navigation, route } = props;
+  const { route } = props;
   const { deviceId } = route.params;
   const selectedDevice = devices.find((d) => d.id === deviceId) as Device;
   const renderBottomSheetContent = () => {

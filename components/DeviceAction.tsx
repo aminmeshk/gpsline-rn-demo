@@ -21,7 +21,6 @@ export interface Props {
 }
 
 const DeviceAction: React.FC<Props> = ({
-  id,
   name,
   description,
   iconType,

@@ -1,4 +1,4 @@
-import { Card, CardItem, Icon, ListItem, Text, View } from 'native-base';
+import { Card, CardItem, Icon, Text, View } from 'native-base';
 import React from 'react';
 import { StyleSheet, ViewStyle } from 'react-native';
 import Colors from '../constants/Colors';

@@ -42,12 +42,12 @@ const DeviceDetailScreen: React.FC<Props> = (props) => {
             type="MaterialCommunityIcons"
             name="map-marker-radius-outline"
             color="white"
-            style={{ color: 'white', fontSize: myAppTheme.iconFontSize }}
+            style={styles.locationIcon}
           />
         </Button>
       ),
     });
-  }, [navigation]);
+  }, [navigation, deviceId]);
 
   const renderActionItem = (itemData: {
     item: DeviceActionModel;
@@ -102,6 +102,10 @@ const styles = StyleSheet.create({
   headerCard: {
     marginTop: 0,
     marginBottom: 10,
+  },
+  locationIcon: {
+    color: 'white',
+    fontSize: myAppTheme.iconFontSize,
   },
 });
 
